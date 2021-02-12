@@ -4,6 +4,9 @@ from jsonMod import load_json, add_to_json, update_values
 from pathMod import paths, create_directory, enter_directory
 
 def lst_unupdated_exl(json_data):
+    '''
+    json_data = loaded json data (load everytime before calling read_file function)
+    '''
     list_return = []
     for k, v in json_data.items():
         if v["isExcelUpdated"] == False:
@@ -11,12 +14,20 @@ def lst_unupdated_exl(json_data):
     return list_return
 
 def get_active_excel_sheet():
+    '''
+    gets the first active Excel Application in windows 
+
+    returns active excel worksheet
+    '''
     active_exl = win.GetActiveObject('Excel.Application')
     active_wrkbk = active_exl.Workbooks(1)
     active_wrksht = active_wrkbk.Worksheets(1)
     return active_wrksht
 
 def excel():
+    '''
+    temp_lst = 
+    '''
 
     temp_lst = [
             "orderNo",
