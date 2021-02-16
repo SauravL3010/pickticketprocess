@@ -2,32 +2,35 @@ import win32com.client as win
 import os
 from jsonMod import load_json, add_to_json, update_values 
 from pathMod import paths, create_directory, enter_directory
+from excelModHelpers import get_sheet, lst_unupdated_exl, return_emty_cell, fill_cell
 
-def lst_unupdated_exl(json_data):
-    '''
-    json_data = loaded json data (load everytime before calling read_file function)
-    '''
-    list_return = []
-    for k, v in json_data.items():
-        if v["isExcelUpdated"] == False:
-            list_return.append(k)
-    return list_return
-
-def get_active_excel_sheet():
-    '''
-    gets the first active Excel Application in windows 
-
-    returns active excel worksheet
-    '''
-    active_exl = win.GetActiveObject('Excel.Application')
-    active_wrkbk = active_exl.Workbooks(1)
-    active_wrksht = active_wrkbk.Worksheets(1)
-    return active_wrksht
 
 def excel():
     '''
-    temp_lst = 
+    temp_dict = all rows in excel sheet
+    temp_lst = all data per orderNo
+
+    how does the algorithm work:
+    - loads the latest json_data
+    - for each orderNo in json_data which is not updated on excel yet: # also updates if 'status' has been changed
+        - make "isExcelUpdated" = True
+        - fill all the cells with new data
+        - get a new empty cell
     '''
+    file_name = r"C:\Users\0235124\OneDrive - University of Waterloo\Desktop\signodeProjects\pdfParse\pyPDF2\python_code\STABLE CODE\test\master_pick_tickets\master_pick_tickets.json"
+
+    temp_dict = {
+            "orderNo" : "A",
+            "status" : "B",
+            "shipTo" : "C",
+            "via" : "D",
+            "dateReceived" : "E",
+            "previousReprint" : "F",
+            "previousPrintStatus" : "G",
+            "friendly_name" : "H",
+            "fileDirectory" : "I",
+            "emailAttachment" : "J",
+            }
 
     temp_lst = [
             "orderNo",
@@ -40,37 +43,31 @@ def excel():
             "emailAttachment",
     ]
 
-    temp_dict = {
-            "orderNo" : "A",
-            "status" : "B",
-            "shipTo" : "C",
-            "via" : "D",
-            "dateReceived" : "E",
-            "friendly_name" : "F",
-            "fileDirectory" : "G",
-            "emailAttachment" : "H",
-            }
 
-    active_wrksht = get_active_excel_sheet()
+    for _ in range(2):
+        #Updates in "Just Received" sheet
+        c = return_emty_cell(file_name, temp_dict, temp_lst)
 
-    file_name = r"C:\Users\0235124\OneDrive - University of Waterloo\Desktop\signodeProjects\pdfParse\pyPDF2\python_code\STABLE CODE\test\master_pick_tickets\master_pick_tickets.json"
-    temp_json = load_json(file_name)
-
-    # excel algorithm
-    c = 2
-    while active_wrksht.Range(f"{temp_dict['orderNo']}{c}").Value != 0:
-        update_values(file_name, 
-                    active_wrksht.Range(f"{temp_dict['orderNo']}{c}").Value, 
-                    "status", 
-                    active_wrksht.Range(f"{temp_dict['status']}{c}").Value)
-        c += 1
-    else:
-        for order in lst_unupdated_exl(temp_json):
+        for order in lst_unupdated_exl(file_name, "isExcelUpdated", False, "status", "Just Received"):
             update_values(file_name, order, "isExcelUpdated", True)
-            for i in temp_lst[1:]:
-                try:
-                    active_wrksht.Range(f"{temp_dict[i]}{c}").Value = temp_json[order][i]
-                except:
-                    active_wrksht.Range(f"{temp_dict[i]}{c}").Value = order
-            c += 1
+            fill_cell(temp_lst, temp_dict, file_name, order, c)
+            c = return_emty_cell(file_name, temp_dict, temp_lst)
+
+        #Updates in "Shipped" sheet
+        c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Shipped"))
+
+        for order in lst_unupdated_exl(file_name, "status", "Shipped", "isShippedExcelUpdated", False):
+            update_values(file_name, order, "isShippedExcelUpdated", True)
+            fill_cell(temp_lst, temp_dict, file_name, order, c, sheet = get_sheet(sheet="Shipped"))
+            c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Shipped"))
+
+        #updates in "Billed" sheet
+        c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Billed"))
+
+        for order in lst_unupdated_exl(file_name, "status", "Billed", "isBilledExcelUpdated", False):
+            update_values(file_name, order, "isBilledExcelUpdated", True)
+            fill_cell(temp_lst, temp_dict, file_name, order, c, sheet = get_sheet(sheet="Billed"))
+            c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Billed"))
+
+    
 

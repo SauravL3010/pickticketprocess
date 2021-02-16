@@ -25,7 +25,11 @@ def read_file(file, json_data, jsonfile, extraction_info, move_to):
         via, 
         fileDirectory, 
         status = "Just Received", 
+        shippedDate = None,
+        billedDate = None,
         isExcelUpdated = False
+        isShippedExcelUpdated = False,
+        isBilledExcelUpdated = False,
     }
     
     if order_no already exists in previous email attachment, then "_reprint" is appended to order_no ("7182345-00_reprint")

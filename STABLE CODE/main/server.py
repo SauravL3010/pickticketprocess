@@ -3,8 +3,23 @@ import os
 from excelMod import lst_unupdated_exl, excel
 from pathMod import enter_directory
 
-main()
+# import threading
 
-excel()
+# def printit():
+#     threading.Timer(5.0, printit).start()
+#     main()
+
+#     excel()
+
+# printit()
 
 
+import sched, time
+s = sched.scheduler(time.time, time.sleep)
+def do_something(sc): 
+    main()
+    excel()
+    s.enter(5, 1, do_something, (sc,))
+
+s.enter(5, 1, do_something, (s,))
+s.run()

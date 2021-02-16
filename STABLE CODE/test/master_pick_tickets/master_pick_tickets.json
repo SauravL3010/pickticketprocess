@@ -1,6 +1,6 @@
 {
     "7182119-00": {
-        "dateReceived": "2021-02-12 14:45:01.466045",
+        "dateReceived": "2021-02-15 20:13:50.954025",
         "originalPrint": true,
         "reprintDate": null,
         "emailAttachment": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\email_archive\\single_pdfs_5.pdf",
@@ -8,10 +8,14 @@
         "via": "Pick Up",
         "fileDirectory": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\master_pick_tickets\\7182119-00.pdf",
         "status": "Just Received",
-        "isExcelUpdated": true
+        "shippedDate": null,
+        "billedDate": null,
+        "isExcelUpdated": false,
+        "isShippedExcelUpdated": false,
+        "isBilledExcelUpdated": false
     },
     "7177969-00": {
-        "dateReceived": "2021-02-12 14:45:01.507465",
+        "dateReceived": "2021-02-15 20:13:51.013842",
         "originalPrint": true,
         "reprintDate": null,
         "emailAttachment": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\email_archive\\single_pdfs_5.pdf",
@@ -19,10 +23,14 @@
         "via": "See Below",
         "fileDirectory": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\master_pick_tickets\\7177969-00.pdf",
         "status": "Just Received",
-        "isExcelUpdated": true
+        "shippedDate": null,
+        "billedDate": null,
+        "isExcelUpdated": false,
+        "isShippedExcelUpdated": false,
+        "isBilledExcelUpdated": false
     },
     "7180605-02": {
-        "dateReceived": "2021-02-12 14:45:01.535963",
+        "dateReceived": "2021-02-15 20:13:51.062918",
         "originalPrint": true,
         "reprintDate": null,
         "emailAttachment": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\email_archive\\single_pdfs_5.pdf",
@@ -30,10 +38,14 @@
         "via": "Puro Air",
         "fileDirectory": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\master_pick_tickets\\7180605-02.pdf",
         "status": "Just Received",
-        "isExcelUpdated": true
+        "shippedDate": null,
+        "billedDate": null,
+        "isExcelUpdated": false,
+        "isShippedExcelUpdated": false,
+        "isBilledExcelUpdated": false
     },
     "7181257-00": {
-        "dateReceived": "2021-02-12 14:45:01.570327",
+        "dateReceived": "2021-02-15 20:13:51.109994",
         "originalPrint": true,
         "reprintDate": null,
         "emailAttachment": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\email_archive\\single_pdfs_5.pdf",
@@ -41,10 +53,14 @@
         "via": "Purolator",
         "fileDirectory": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\master_pick_tickets\\7181257-00.pdf",
         "status": "Just Received",
-        "isExcelUpdated": true
+        "shippedDate": null,
+        "billedDate": null,
+        "isExcelUpdated": false,
+        "isShippedExcelUpdated": false,
+        "isBilledExcelUpdated": false
     },
     "7181632-00": {
-        "dateReceived": "2021-02-12 14:45:01.601654",
+        "dateReceived": "2021-02-15 20:13:51.160191",
         "originalPrint": true,
         "reprintDate": null,
         "emailAttachment": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\email_archive\\single_pdfs_5.pdf",
@@ -52,6 +68,10 @@
         "via": "Purolator",
         "fileDirectory": "C:\\Users\\0235124\\OneDrive - University of Waterloo\\Desktop\\signodeProjects\\pdfParse\\pyPDF2\\python_code\\STABLE CODE\\test\\master_pick_tickets\\7181632-00.pdf",
         "status": "Just Received",
-        "isExcelUpdated": true
+        "shippedDate": null,
+        "billedDate": null,
+        "isExcelUpdated": false,
+        "isShippedExcelUpdated": false,
+        "isBilledExcelUpdated": false
     }
 }

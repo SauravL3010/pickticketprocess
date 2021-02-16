@@ -45,7 +45,8 @@ def if_order_exists_return_renamed(order_no, json_data):
 
 def append_data(originalPrint, reprintDate, dateReceived, 
                 emailAttachment, shipTo, via, fileDirectory, 
-                status="Just Received", isExcelUpdated=False):
+                status="Just Received", shippedDate=None, billedDate=None, 
+                isExcelUpdated=False, isShippedExcelUpdated=False, isBilledExcelUpdated=False):
     '''
     all mandatory data
     '''
@@ -58,9 +59,14 @@ def append_data(originalPrint, reprintDate, dateReceived,
                     "via": via,
                     "fileDirectory" : fileDirectory,
                     "status" : status,
+                    "shippedDate" : shippedDate,
+                    "billedDate" : billedDate,
                     "isExcelUpdated" : isExcelUpdated,
+                    "isShippedExcelUpdated" : isShippedExcelUpdated,
+                    "isBilledExcelUpdated" : isBilledExcelUpdated,
                     }
     return return_dict
+
 
 
 
