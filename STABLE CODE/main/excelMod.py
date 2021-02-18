@@ -41,33 +41,41 @@ def excel():
             "friendly_name",
             "fileDirectory",
             "emailAttachment",
+            "previousReprint",
+            "previousPrintStatus",
     ]
 
 
-    for _ in range(2):
+    # for _ in range(2):
         #Updates in "Just Received" sheet
+    c = return_emty_cell(file_name, temp_dict, temp_lst)
+
+    for order in lst_unupdated_exl(file_name, "isExcelUpdated", False, "status", "Just Received"):
+        # update_values(file_name, order, "isExcelUpdated", True)
+        temp_state = fill_cell(temp_lst, temp_dict, file_name, order, c)
+        if temp_state:
+            update_values(file_name, order, "isExcelUpdated", True)
         c = return_emty_cell(file_name, temp_dict, temp_lst)
 
-        for order in lst_unupdated_exl(file_name, "isExcelUpdated", False, "status", "Just Received"):
-            update_values(file_name, order, "isExcelUpdated", True)
-            fill_cell(temp_lst, temp_dict, file_name, order, c)
-            c = return_emty_cell(file_name, temp_dict, temp_lst)
+    #Updates in "Shipped" sheet
+    c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Shipped"))
 
-        #Updates in "Shipped" sheet
+    for order in lst_unupdated_exl(file_name, "status", "Shipped", "isShippedExcelUpdated", False):
+        # update_values(file_name, order, "isShippedExcelUpdated", True)
+        temp_state = fill_cell(temp_lst, temp_dict, file_name, order, c, sheet = get_sheet(sheet="Shipped"))
+        if temp_state:
+            update_values(file_name, order, "isShippedExcelUpdated", True)
         c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Shipped"))
 
-        for order in lst_unupdated_exl(file_name, "status", "Shipped", "isShippedExcelUpdated", False):
-            update_values(file_name, order, "isShippedExcelUpdated", True)
-            fill_cell(temp_lst, temp_dict, file_name, order, c, sheet = get_sheet(sheet="Shipped"))
-            c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Shipped"))
+    #updates in "Billed" sheet
+    c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Billed"))
 
-        #updates in "Billed" sheet
-        c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Billed"))
-
-        for order in lst_unupdated_exl(file_name, "status", "Billed", "isBilledExcelUpdated", False):
+    for order in lst_unupdated_exl(file_name, "status", "Billed", "isBilledExcelUpdated", False):
+        # update_values(file_name, order, "isBilledExcelUpdated", True)
+        temp_state = fill_cell(temp_lst, temp_dict, file_name, order, c, sheet = get_sheet(sheet="Billed"))
+        if temp_state:
             update_values(file_name, order, "isBilledExcelUpdated", True)
-            fill_cell(temp_lst, temp_dict, file_name, order, c, sheet = get_sheet(sheet="Billed"))
-            c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Billed"))
+        c = return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Billed"))
 
     
 

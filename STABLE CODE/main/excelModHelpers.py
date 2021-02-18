@@ -50,22 +50,25 @@ def lst_unupdated_exl(json_file, var, value, var1=None, value1=None):
 def return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Just Received")):
     # moved_is_found = False
     # moved_c = 0
-
     while sheet.Range(f"{temp_dict['orderNo']}{c}").Value != 0:
         # must be a valid order no. 
         # if moved is found, change return c:
         # if sheet.Range(f"{temp_dict['orderNo']}{c}").Value == "moved":
         #     moved_is_found = True
         #     moved_c = c
+        try:
+            update_values(file_name, 
+                        sheet.Range(f"{temp_dict['orderNo']}{c}").Value, 
+                        "status", 
+                        sheet.Range(f"{temp_dict['status']}{c}").Value)
+            
+            order = sheet.Range(f"{temp_dict['orderNo']}{c}").Value
+            move_cells(temp_lst, temp_dict, file_name, order, sheet, c)
+        except:
+            print(f"Error occured at sheet '{sheet.Name}' cell '{temp_dict['orderNo']}{c}'")
 
-
-        update_values(file_name, 
-                      sheet.Range(f"{temp_dict['orderNo']}{c}").Value, 
-                      "status", 
-                      sheet.Range(f"{temp_dict['status']}{c}").Value)
-        
-        order = sheet.Range(f"{temp_dict['orderNo']}{c}").Value
-        move_cells(temp_lst, temp_dict, file_name, order, sheet, c)
+        ###
+        # reprints(file_name, temp_dict, order, c, sheet)
         
         # find the first 0 or first "moved":
         # 
@@ -74,22 +77,49 @@ def return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(shee
         # return_c = c
         # if moved_is_found:
         #     return_c = moved_c
+    # return_c = c
+    next_c = c
+    while sheet.Range(f"{temp_dict['via']}{next_c}").Value != None:
+        if sheet.Range(f"{temp_dict['orderNo']}{next_c}").Value != 0:
+            try:
+                update_values(file_name, 
+                            sheet.Range(f"{temp_dict['orderNo']}{next_c}").Value, 
+                            "status", 
+                            sheet.Range(f"{temp_dict['status']}{next_c}").Value)
+                
+                order = sheet.Range(f"{temp_dict['orderNo']}{next_c}").Value
+                move_cells(temp_lst, temp_dict, file_name, order, sheet, next_c)
+            except:
+                print(f"Error occured at sheet '{sheet.Name}' cell '{temp_dict['orderNo']}{next_c}'")
+
+        next_c += 1
+
+
     return c
 
 def fill_cell(temp_lst, temp_dict, json_file, order, c, sheet = get_sheet(sheet="Just Received")):
     temp_json = load_json(json_file)
     for i in temp_lst[1:]:
         try:
-            sheet.Range(f"{temp_dict[i]}{c}").Value = temp_json[order][i]
-        except:
+            return_statement = True
             if i == "friendly_name":
                 sheet.Range(f"{temp_dict[i]}{c}").Value = order
-    reprints(json_file, temp_dict, order, c, sheet)
+            else:
+                sheet.Range(f"{temp_dict[i]}{c}").Value = temp_json[order][i]
+        except:
+            if sheet.Range(f"{temp_dict['dateReceived']}{c}").Value == None:
+                return_statement = False
+            if i == "previousReprint" or i == "previousPrintStatus":
+                try:
+                    reprints(json_file, temp_dict, order, c, sheet)
+                except:
+                    print(f"error in filing{i} -- {order} --- {temp_json[order]['status']}")
+    return return_statement
                 
 def reprints(json_file, temp_dict, order, c, sheet=get_sheet(sheet = "Just Received")):
     temp_json = load_json(json_file)
     if temp_json[order]["originalPrint"] == False:
-        previous_order = "_".join('7175649-00_reprint'.split("_")[:-1])
+        previous_order = "_".join(order.split("_")[:-1])
         friendly_name = '"' + previous_order + '"'
         link_location = '"' + temp_json[previous_order]["fileDirectory"] + '"'
         status = temp_json[previous_order]["status"]
@@ -128,7 +158,7 @@ def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
                     else:
                         sheet.Range(f"{temp_dict[i]}{c}").Value = None
                 except:
-                    print("cannot empty cells")
+                    print(f"cannot empty cell {temp_dict[i][c]} in sheet {sheet.Name}")
                     
         # user entered "Billed"
         if json_data[order]["status"] == "Billed":
@@ -153,7 +183,7 @@ def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
                     else:
                         sheet.Range(f"{temp_dict[i]}{c}").Value = None
                 except:
-                    print("cannot empty cells")
+                    print(f"cannot empty cell {temp_dict[i][c]} in sheet {sheet.Name}")
     
     # for sheet "Shipped"
     elif sheet.Name == "Shipped":
@@ -180,7 +210,7 @@ def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
                     else:
                         sheet.Range(f"{temp_dict[i]}{c}").Value = None
                 except:
-                    print("cannot empty cells")
+                    print(f"cannot empty cell {temp_dict[i][c]} in sheet {sheet.Name}")
             
         # user entered "Just Received"
         if json_data[order]["status"] == "Just Received":
@@ -205,7 +235,7 @@ def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
                     else:
                         sheet.Range(f"{temp_dict[i]}{c}").Value = None
                 except:
-                    print("cannot empty cells")
+                    print(f"cannot empty cell {temp_dict[i][c]} in sheet {sheet.Name}")
     
     # for sheet "Billed"
     elif sheet.Name == "Billed":
@@ -232,7 +262,7 @@ def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
                     else:
                         sheet.Range(f"{temp_dict[i]}{c}").Value = None
                 except:
-                    print("cannot empty cells")
+                    print(f"cannot empty cell {temp_dict[i][c]} in sheet {sheet.Name}")
             
         # user entered "Just Received"
         if json_data[order]["status"] == "Just Received":
@@ -261,4 +291,4 @@ def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
                     else:
                         sheet.Range(f"{temp_dict[i]}{c}").Value = None
                 except:
-                    print("cannot empty cells")
+                    print(f"cannot empty cell {temp_dict[i][c]} in sheet {sheet.Name}")
