@@ -2,7 +2,6 @@ import win32com.client as win
 from jsonMod import load_json, add_to_json, update_values 
 from datetime import datetime
 
-import win32com.client as win
 
 def get_sheet(sheet, file = "testfile.xlsx"):
     '''
@@ -23,7 +22,7 @@ def get_sheet(sheet, file = "testfile.xlsx"):
             continue
     for i in range(10):
         try:
-            if win.GetActiveObject("Excel.Application").Workbooks(book).Worksheets(i).name == sheet:
+            if win.GetActiveObject("Excel.Application").Workbooks(book).Worksheets(i).Name == sheet:
                 return_obj = win.GetActiveObject("Excel.Application").Workbooks(book).Worksheets(i)
                 sheet = i
         except:
@@ -47,9 +46,26 @@ def lst_unupdated_exl(json_file, var, value, var1=None, value1=None):
                 list_return.append(k)
     return list_return
 
+def update_status_if_deleted(file_name, temp_dict, c, sheet):
+    '''
+    if an order has a status of none, update its status to current sheet
+    '''
+    if sheet.Range(f"{temp_dict['status']}{c}").Value == None:
+        temp_no = sheet.Range(f"{temp_dict['orderNo']}{c}")
+        print(f'Status of order {temp_no} at cell {temp_dict["status"]}{c} in {sheet.Name} was None')
+
+        update_values(file_name, 
+                    sheet.Range(f"{temp_dict['orderNo']}{c}").Value, 
+                    "status", 
+                    sheet.Name)
+
+        sheet.Range(f"{temp_dict['status']}{c}").Value = sheet.Name
+
+
 def return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(sheet = "Just Received")):
     # moved_is_found = False
     # moved_c = 0
+
     while sheet.Range(f"{temp_dict['orderNo']}{c}").Value != 0:
         # must be a valid order no. 
         # if moved is found, change return c:
@@ -61,6 +77,8 @@ def return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(shee
                         sheet.Range(f"{temp_dict['orderNo']}{c}").Value, 
                         "status", 
                         sheet.Range(f"{temp_dict['status']}{c}").Value)
+
+            update_status_if_deleted(file_name, temp_dict, c, sheet)
             
             order = sheet.Range(f"{temp_dict['orderNo']}{c}").Value
             move_cells(temp_lst, temp_dict, file_name, order, sheet, c)
@@ -86,6 +104,8 @@ def return_emty_cell(file_name, temp_dict, temp_lst, c=2, sheet = get_sheet(shee
                             sheet.Range(f"{temp_dict['orderNo']}{next_c}").Value, 
                             "status", 
                             sheet.Range(f"{temp_dict['status']}{next_c}").Value)
+
+                update_status_if_deleted(file_name, temp_dict, next_c, sheet)
                 
                 order = sheet.Range(f"{temp_dict['orderNo']}{next_c}").Value
                 move_cells(temp_lst, temp_dict, file_name, order, sheet, next_c)
