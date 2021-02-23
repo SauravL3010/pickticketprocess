@@ -49,6 +49,7 @@ def append_data(originalPrint, reprintDate, dateReceived,
                 isExcelUpdated=False, isShippedExcelUpdated=False, isBilledExcelUpdated=False):
     '''
     all mandatory data
+    contains all the data {keys:values} required for each pick ticket.
     '''
     return_dict = {
                     "dateReceived" : dateReceived,

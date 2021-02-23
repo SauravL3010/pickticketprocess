@@ -8,7 +8,7 @@ import os
 
 def read_file(file, json_data, jsonfile, extraction_info, move_to):
     '''
-    file = emailed file (mail%^**&^%.pdy)
+    file = emailed file (mail%^**&^%.pdf)
     json_data = loaded json data (load everytime before calling this function)
     jsonfile = main json file ("master_pick_tickets.json")
     

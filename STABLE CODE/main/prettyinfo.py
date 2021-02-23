@@ -2,6 +2,9 @@ from prettytable import PrettyTable
 import os
 
 def table():
+    '''
+    table generated when an email is received 
+    '''
     extraction_info = PrettyTable()
     extraction_info.field_names = ["pdf file name", "num of pages extracted"]
     return extraction_info

@@ -148,7 +148,7 @@ def reprints(json_file, temp_dict, order, c, sheet=get_sheet(sheet = "Just Recei
         sheet.Range(cell_range).Formula = formula
         cell_range = f"{temp_dict['previousPrintStatus']}{c}"
         sheet.Range(cell_range).Value = status
-
+        
 
 def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
     json_data = load_json(file_name)
@@ -156,7 +156,7 @@ def move_cells(temp_lst, temp_dict, file_name, order, sheet, c):
     # for sheet "Just Received"
     if sheet.Name == "Just Received":
         # user entered "Shipped"
-        if json_data[order]["status"] == "Shipped":
+        if json_data[order]["status"] == 'Shipped':
             update_values(file_name, 
                           order, 
                           "shippedDate", 
