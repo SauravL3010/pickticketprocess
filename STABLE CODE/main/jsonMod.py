@@ -5,7 +5,10 @@ def load_json(file_name):
     file_name = .json file
     '''
     with open(file_name, 'r') as read_file:
-        loaded_data = json.load(read_file) # load master data
+        try:
+            loaded_data = json.load(read_file) # load master data
+        except Exception as e:
+            print(f'Error while loading json file error -- {e}')
     return loaded_data
 
 def add_to_json(file_name, key, value):
